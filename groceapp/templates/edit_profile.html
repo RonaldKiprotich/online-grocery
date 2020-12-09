@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-6 offset-md-3">
+        <form action="" method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="mb-4"> Update </legend>
+                {{profile_form | crispy}}
+
+            </fieldset>
+            <div class="form-group">
+                <button type= "submit" class="btn btn-outline-info"> Update </button>
+            </div>
+        </form>
+        
+    </div>
+    
+</div> 
+
+
+{% endblock %}

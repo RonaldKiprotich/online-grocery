@@ -17,7 +17,34 @@
                     <a class="nav-link" href="/admin" style="text-decoration: none;color: white;margin-top: 0.6%;">Admins</a>
                     {% endif %}
                 {% endif %}
-                
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+
+                    aria-haspopup="true"
+                    aria-expanded="false">{{ user.username|title }} <img class="rounded-circle nav-img"
+                        src="{{ user.profile.profile_picture.url }}"
+                        alt="">
+                    </a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a href="{% url 'profile' user.id %}">
+                            <img class="rounded-circle nav-img"src="{{ user.profile.profile_picture.url }}" alt="">
+                            &nbsp; Profile
+                        </a>
+                        <hr>
+                        <a href="{% url 'update_profile' user.username  %}">
+                            <i class="fas fa-edit"></i>&nbsp;
+                            &nbsp; Edit Profile
+                        </a>
+                        <hr>
+                        <a  href="{% url 'logout' %}?next=/" class="btn btn-sm btn-outline-danger d-block mx-auto"> Logout</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'login' %}">Log In/Register</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

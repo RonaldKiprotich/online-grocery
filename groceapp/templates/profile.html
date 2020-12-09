@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container">
+ <h1 style="margin-left: 40%;"> Profile </h1>
+      <div class="row">
+       <div class="col-md-4" style="margin-left: 30%;">
+        <div class="card" style="background-color: bisque; padding-left: 10px;">
+        <img class="rounded-circle d-block mx-auto" style="margin-top: 3%;height: 125px;width: 125px;" src="{{ user.userprofile.profile_picture.url }}">
+        <p class="text-center mt-3" style="font-size: 20px;">{{user.username}}</p>
+        <p>Email: {{user.userprofile.email}}</p>
+        <p>Contact: {{user.userprofile.contact}}</p>        
+        <a href="{% url 'update_profile' user.username%}"><button type="button" class="btn btn-success btn-sm"> Update profile </button></a>
+        </div>
+       </div>
+      </div><br>
+      {% if user.is_authenticated and user.is_customer %}
+      <div class="text-center" style="font-size: 30px;">You have {{count}} Unit(s)</div><br>
+      <div class="row">
+        {% if units %}
+        {% for Unit in units %}
+        <div class="col-md-4 mb-4">
+            <div class="card" >
+                <div class="card-top bg-info" style="height: 90px;">
+                <h4 class="card-title" style="color: aliceblue;text-align: center; margin-top: 2%;">{{ Unit.name_of_good }}</h4>
+                </div>
+                <img class="card-img" src="{{ Unit.image_of_good.url }}" alt="" style="height: 300px;">
+                <div class="card-body" style="height: 120px;">
+                    <p><strong>Mass:</strong> {{Unit.mass_of_good_in_kgs}}kgs</p>
+                    <p><strong>Current cost to be paid:</strong> shs</p>
+                    <p><strong>Date of submission:</strong> {{ Unit.added|date }}</p>
+                </div>
+                <hr>
+                <h4 class="card-title text-center"><a class="btn btn-sm btn-success" href="{% url 'pickup1' Unit.id  %}">Pick Up</a><a class="btn btn-sm btn-warning" href="{% url 'delivery' Unit.id %}">Delivery</a> </h4>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+      {% else %}
+      {% endif %}
+</div>
+{% endblock %}

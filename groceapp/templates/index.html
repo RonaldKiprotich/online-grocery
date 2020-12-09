@@ -35,11 +35,11 @@
     </div>
     {% if user.is_authenticated and user.is_employee %}
     <marquee behaviour= "scroll" direction ="left" scrollamount="10">
-        <p class="scroll">Make sure you deliver goods in time and remove good to free slot!</p>
+        <p class="scroll">Make sure you deliver goods in time and remove good to free Unit!</p>
     </marquee>
     {% else %}
     <marquee behaviour= "scroll" direction ="left" scrollamount="10">
-        <p class="scroll">Choose a category and book a slot! Hurry before slots are full! All payments are paid on delivery or pickup(hard cash)!</p>
+        <p class="scroll">Choose a category and book a Unit! Hurry before units are full! All payments are paid on delivery or pickup(hard cash)!</p>
     </marquee>
     {% endif %}
     <h1 class="text-center">Welcome to GroceryHUb254</h1>
@@ -60,11 +60,11 @@
                 </div>
                 <img class="card-img" src="{{ category.image.url }}" alt="" style="height: 300px;">
                     <div class="card-body" style="height: 80px;">
-                        <h3><strong>Cost: </strong><span id="cost">{{ category.cost }}</span>$ per day</h3>
-                        <p><strong>Slots remaining: <span id="slots">{{category.slots_remaining}}</span> slots</strong></p>
+                        <h3><strong>Cost: </strong><span id="cost">{{ category.cost }}</span>$ per kg</h3>
+                        <p><strong>units remaining: <span id="units">{{category.units_remaining}}</span> units</strong></p>
                     </div>
                     <hr>
-                    {% if user.is_authenticated and user.is_employee %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'employeeslots-info' category.id %}">Slots info</a></h4>{% else %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'new-slot' category.id %}">Book slot</a><a class="btn btn-sm btn-outline-info" href="{% url 'slots-info' category.id user.id %}">Slots info</a> </h4>{% endif %}
+                    {% if user.is_authenticated and user.is_employee %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="">units info</a></h4>{% else %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="">Book Unit</a><a class="btn btn-sm btn-outline-info" href="">units info</a> </h4>{% endif %}
             </div>
         </div>
         {% endfor %}
