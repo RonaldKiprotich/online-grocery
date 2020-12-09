@@ -13,5 +13,11 @@ class RegisterForm(UserCreationForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name', 'image', 'cost', 'slots_remaining']
+        fields = ['name', 'image', 'cost', 'units_remaining']
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture', 'contact', 'email']
+
 
