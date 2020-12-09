@@ -18,3 +18,24 @@ def registration(request):
         'form':form,
     }
     return render(request, 'registration/register.html', context)
+
+def home(request):
+    categories = Category.objects.all()
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.save()
+    else:
+        form = CategoryForm()
+    try:
+        categories = Category.objects.all()
+    except Category.DoesNotExist:
+        categories = None
+    params = {
+        'categories': categories,
+        'form': form,
+    }
+
+    return render(request, 'index.html', params)
+
