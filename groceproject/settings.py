@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'groceproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'grocery',
+        'NAME': 'mygroce',
         'USER': 'moringa',
     'PASSWORD':'Raykip254',
     }
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
@@ -122,3 +122,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+AUTH_USER_MODEL = 'groceapp.User'
+LOGIN_REDIRECT_URL = '/' 

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="modal fade" id="categoryupload" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Category Upload</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post" enctype="multipart/form-data" novalidate>
+                            {% csrf_token %}
+                           
+                            <button class="btn btn-sm btn-success">Upload Category</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal">
+                                Close
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated and user.is_employee %}
+    <marquee behaviour= "scroll" direction ="left" scrollamount="10">
+        <p class="scroll">Make sure you deliver goods in time and remove good to free slot!</p>
+    </marquee>
+    {% else %}
+    <marquee behaviour= "scroll" direction ="left" scrollamount="10">
+        <p class="scroll">Choose a category and book a slot! Hurry before slots are full! All payments are paid on delivery or pickup(hard cash)!</p>
+    </marquee>
+    {% endif %}
+    <h1 class="text-center">Welcome to GroceryHUb254</h1>
+    <div class="row">
+        {% if categories %}
+        {% for category in categories %}
+        <div class="col-md-6 mb-6" style="padding-top: 2%;">
+            <div class="card" >
+                <div class="card-top bg-info" style="height: 90px;">
+                <h4 class="card-title" style="color: aliceblue;text-align: center; margin-top: 2%;">{{ category.name }} 
+                    {% if user.is_authenticated and user.is_employee %}
+                    <form action="{% url 'card_delete' category.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit"  style="background-color: red;color: white;font-size: 15px;">Delete</button>
+                    </form>
+                    {% endif %}
+                </h4>
+                </div>
+                <img class="card-img" src="{{ category.image.url }}" alt="" style="height: 300px;">
+                    <div class="card-body" style="height: 80px;">
+                        <h3><strong>Cost: </strong><span id="cost">{{ category.cost }}</span>$ per day</h3>
+                        <p><strong>Slots remaining: <span id="slots">{{category.slots_remaining}}</span> slots</strong></p>
+                    </div>
+                    <hr>
+                    {% if user.is_authenticated and user.is_employee %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'employeeslots-info' category.id %}">Slots info</a></h4>{% else %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'new-slot' category.id %}">Book slot</a><a class="btn btn-sm btn-outline-info" href="{% url 'slots-info' category.id user.id %}">Slots info</a> </h4>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h1><b>Sorry there are no categories currently!😥</b></h1>
+        {% endif %}
+    </div>
+</div><br><br>
+{% endblock %}
