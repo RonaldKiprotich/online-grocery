@@ -68,4 +68,40 @@ class UserProfile(models.Model):
 
     def delete_profile(self):
         self.delete()  
+
+class Unit(models.Model):
+    image_of_good = models.ImageField(upload_to='units/')
+    name_of_good = models.CharField(max_length=250)
+    mass_of_good_in_kgs = models.IntegerField(blank=False)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='units')
+    added = models.DateTimeField(auto_now_add=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+
+    def get_absolute_url(self):
+        return f"/unit/{self.id}"
+ 
+    def save_unit(self):
+        self.save()
+
+    def delete_unit(self):
+        self.delete()
+
+    def __str__(self):
+        return f'{self.user} Unit'
+    
+    @classmethod
+    def get_user_units(cls,user):
+        return cls.objects.filter(user=user)
+    
+    @classmethod
+    def get_category_units(cls,category):
+        return cls.objects.filter(category=category)
+    
+    @classmethod
+    def all_units(cls):
+        return cls.objects.all()
+
+    @classmethod
+    def find_unit(cls, unit_id):
+        return cls.objects.filter(id=unit_id) 
     
