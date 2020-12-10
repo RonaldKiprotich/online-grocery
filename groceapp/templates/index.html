@@ -65,7 +65,11 @@
                         <p><strong>units remaining: <span id="units">{{category.units_remaining}}</span> units</strong></p>
                     </div>
                     <hr>
-                    {% if user.is_authenticated and user.is_employee %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="">units info</a></h4>{% else %}<h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="">Book Unit</a><a class="btn btn-sm btn-outline-info" href="">units info</a> </h4>{% endif %}
+                    {% if user.is_authenticated and user.is_employee %}
+                    <h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'employeeunits-info' category.id %}">Units info</a></h4>
+                    {% else %}
+                    <h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'new-unit' category.id %}">Book unit</a><a class="btn btn-sm btn-outline-info" href="{% url 'units-info' category.id user.id %}">Units info</a> </h4>
+                    {% endif %}
             </div>
         </div>
         {% endfor %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated and user.is_employee %}
+    <div class="text-center" style="font-size: 30px;">There are {{countunits}} unit(s) in this category</div>
+    {% else %}
+    <div class="text-center" style="font-size: 30px;">You have {{count}} unit(s) in this category</div>
+    {% endif %}
+    {% if user.is_authenticated and user.is_employee %}
+    <div class="row">
+        {% if employeeunits %}
+        {% for employeeunit in employeeunits %}
+        <div class="col-md-4 mb-4" style="padding-top: 2%;">
+            <div class="card" >
+                <div class="card-top bg-info">
+                <h4 class="card-title" style="color: aliceblue;text-align: center; margin-top: 2%;">{{ employeeunit.name_of_good }}
+                    <form action="{% url 'unit_delete' employeeunit.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit"  style="background-color: red;color: white;font-size: 15px;">Delete</button>
+                    </form>
+                </h4>
+                </div>
+                <img class="card-img" src="{{ employeeunit.image_of_good.url }}" alt="">
+                <div class="card-body">
+                    <p><strong>Mass:</strong> {{employeeunit.mass_of_good_in_kgs}}kgs</p>
+                    <p><strong>Current cost to be paid:</strong> shs</p>
+                    <p><strong>Date of submission:</strong> {{ employeeunit.added|date }}</p>
+                    <p><strong>Submitted by:</strong> {{ employeeunit.user.user.username }}</p>
+                    <p><strong>Customer contact:</strong> {{ employeeunit.user.user.contact }}</p>
+                </div>
+                <hr>
+                <h4 class="card-title text-center"><a class="btn btn-sm btn-info" href="{% url 'pickup' employeeunit.id %}">Pick up details</a><a class="btn btn-sm btn-warning" href="{% url 'deliver' employeeunit.id %}">Deliver details</a></h4>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+            <h5 class="text-center">There are <strong style="color: red;">no</strong> units in this category <a class="d-block mx-auto" href="/">
+                <button class="btn btn-sm btn-info d-block mx-auto">Back Home</button></a></h5>
+            <img src="/static/images/nounits.png" alt="nounits" height="300px" width="300px" style="margin-top: 5%;">
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="row">
+        {% if units %}
+        {% for unit in units %}
+        <div class="col-md-4 mb-4" style="padding-top: 2%;">
+            <div class="card" >
+                <div class="card-top bg-info">
+                <h4 class="card-title" style="color: aliceblue;text-align: center; margin-top: 2%;">{{ unit.name_of_good }}</h4>
+                </div>
+                <img class="card-img" src="{{ unit.image_of_good.url }}" alt="">
+                <div class="card-body">
+                    <p><strong>Mass:</strong> {{unit.mass_of_good_in_kgs}}kgs</p>
+                    <p><strong>Current cost to be paid:</strong> Shs. {{pickup.days}} * {{cart.cost}}</p>
+                    <p><strong>Date of submission:</strong> {{ unit.added|date }}</p>
+                </div>
+                <hr>
+                <h4 class="card-title text-center"><a class="btn btn-sm btn-success" id="pickup1" href="{% url 'pickup1' unit.id  %}">Pick Up</a><a class="btn btn-sm btn-warning" id="delivery1" href="{% url 'delivery' unit.id %}">Delivery</a> </h4>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+            <h5 class="text-center">You have <strong style="color: red;">no</strong> units in this category <a class="d-block mx-auto" href="/">
+                <button class="btn btn-sm btn-info d-block mx-auto">Back Home</button></a></h5>
+            <img src="/static/images/nounits.png" alt="nounits" height="300px" width="300px" style="margin-top: 5%;">
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
