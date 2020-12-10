@@ -4,21 +4,19 @@ from .forms import *
 from .models import *
 from django.contrib import messages
 from cloudinary.models import CloudinaryField
+from django.views.generic import CreateView
 
 # Create your views here.
-def registration(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            form.save()
-            return redirect('login')
-    else:
-        form = RegisterForm()
-    context = {
-        'form':form,
-    }
-    return render(request, 'registration/register.html', context)
+class register(CreateView):
+    model = User
+    form_class = CustomerSignUpForm
+    template_name = 'registration/customer_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('login')
+
 
 def home(request):
     categories = Category.objects.all()
