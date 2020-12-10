@@ -52,7 +52,7 @@
                 <div class="card-top bg-info" style="height: 90px;">
                 <h4 class="card-title" style="color: aliceblue;text-align: center; margin-top: 2%;">{{ category.name }} 
                     {% if user.is_authenticated and user.is_employee %}
-                    <form action="{% url 'card_delete' category.id %}" method="post">
+                    <form action="#" method="post">
                     {% csrf_token %}
                     <button type="submit"  style="background-color: red;color: white;font-size: 15px;">Delete</button>
                     </form>
@@ -66,7 +66,7 @@
                     </div>
                     <hr>
                     {% if user.is_authenticated and user.is_employee %}
-                    <h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'employeeunits-info' category.id %}">Units info</a></h4>
+                    <h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="#">Units info</a></h4>
                     {% else %}
                     <h4 class="card-title text-center"><a class="btn btn-sm btn-outline-info" href="{% url 'new-unit' category.id %}">Book unit</a><a class="btn btn-sm btn-outline-info" href="{% url 'units-info' category.id user.id %}">Units info</a> </h4>
                     {% endif %}

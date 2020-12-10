@@ -21,7 +21,7 @@
         </div>
         <div class="panel-body">
 
-          <form action="{% url 'register' %}" novalidate method="POST">
+          <form action="{% url 'employee_register' %}" novalidate method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
             <div class="form-group">

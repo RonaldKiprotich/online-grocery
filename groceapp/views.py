@@ -5,6 +5,9 @@ from .models import *
 from django.contrib import messages
 from cloudinary.models import CloudinaryField
 from django.views.generic import CreateView
+from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.forms import AuthenticationForm
+
 
 # Create your views here.
 class register(CreateView):
@@ -15,7 +18,33 @@ class register(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('login')
+        return redirect('login2')
+
+class employeeregister(CreateView):
+    model = User
+    form_class = EmployeeSignUpForm
+    template_name = 'registration/employee_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('login2')
+
+def login_request(request):
+    if request.method =='POST':
+        form = AuthenticationForm(data = request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username = username,password = password)
+            if user is not None:
+                login(request,user)
+                return redirect('home')
+            else:
+                messages.error(request,"Invalid username or password")
+        else:
+                messages.error(request,"Invalid username or password")
+    return render(request,'registration/login.html',{'form':AuthenticationForm})
 
 
 def home(request):

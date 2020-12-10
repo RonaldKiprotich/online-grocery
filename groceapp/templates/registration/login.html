@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'registration/base.html' %}
 {% load bootstrap4 %}
 {%load static%}
 
@@ -14,8 +14,8 @@
             <div class="section">
                 <h1 style='color:#8a3ab9'><b>Grocery254</b></h1>
                 <div class="form-section">
-                    <form action="/accounts/login/" method="POST">
-                        {% csrf_token %}
+                    <form action="{% url 'login2' %}" method="POST">
+                        {% csrf_token %} 
                         {% bootstrap_form form %}
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary btn-lg" value="Login">
@@ -25,7 +25,11 @@
                 </div>
             </div>
             <div class="section">
-                <p>Don't have an account? <a href="{% url 'register' %}">Sign-Up Here</a> <p><a href="">Terms and Conditions</a></p>
+                <p>Do not have an account? Register
+                    <p>
+                        <a href="{% url 'employee_register' %}">as a Employee</a> OR
+                        <a href="{% url 'register' %}">as
+                            a Customer</a>
             </div>
         </div>
     </div>
