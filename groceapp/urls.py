@@ -13,4 +13,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
     path('profile/<username>/',views.profile, name='profile'),
     path('profile/<username>/update/',views.update_profile, name='update_profile'), 
+    path('<category_id>/new-unit/', views.add_unit, name='new-unit'),
+    path('unit-info/<category_id>/<username>/', views.units_info, name='units-info'),
+    
 ]
