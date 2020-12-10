@@ -64,3 +64,37 @@ def update_profile(request, username):
     }           
     return render(request, 'edit_profile.html',context)
 
+@login_required(login_url='/accounts/login/')
+def add_unit(request, category_id):
+    category = Category.objects.get(id=category_id)
+    if request.method == 'POST':
+        form = UnitsForm(request.POST, request.FILES)
+        if form.is_valid():
+            unit = form.save(commit=False)
+            unit.category = category
+            unit.user = request.user.userprofile
+            unit.save()
+            return redirect('home')
+    else:
+        form = UnitsForm()
+    return render(request, 'bookunit.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def units_info(request, category_id, username):
+    try:
+        user = UserProfile.objects.get(user=username)
+        category = Category.objects.get(id=category_id)
+        units = Unit.objects.filter(user=user,category=category)
+        unit_count = units.count()
+    except unit.DoesNotExist:
+        units = None
+
+    
+    params = {
+        'units': units, 
+        'count': unit_count,
+        
+    }   
+    return render(request, 'unitsinfo.html', params)
+
+
