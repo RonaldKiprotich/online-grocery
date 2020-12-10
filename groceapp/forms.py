@@ -20,4 +20,9 @@ class EditProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['profile_picture', 'contact', 'email']
 
+class UnitsForm(forms.ModelForm):
+    class Meta:
+        model = Unit
+        fields = ['name_of_good', 'image_of_good', 'mass_of_good_in_kgs']
+
 
